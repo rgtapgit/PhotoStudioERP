@@ -1,0 +1,78 @@
+﻿@model IEnumerable<PhotoStudioApp.Models.Order>
+
+@{
+    ViewBag.Title = "List";
+    Layout = null;
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/DataTables-1.9.4/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#exawmple').DataTable({
+            responsive: true
+        });
+    
+        var oTable = $("#example").dataTable({
+            "bFilter": true,
+            "bProcessing": true,
+            "bServerSide": false,
+            "aaSorting": [[0, "asc"]]
+
+        });
+    });
+</script>
+
+<table class="table" id="example">
+    <tr>
+        <th>
+            Customer Id
+        </th>
+        <th>
+            Order No
+        </th> 
+        <th>
+            Order Details
+        </th>
+        <th>
+            Order Date
+        </th>
+        <th>
+            Total Cost
+        </th>
+        <th>
+            Studio Id
+        </th>
+        <th>Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDetails)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.orderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totalCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studioId)
+        </td>
+        <td>
+            <a href="#" data-toggle="modal" data-target="#myModal" onclick="editList(@item.orderId)" class="text-success">Edit</a> |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            <a href="#" onclick="deleteOrder(@item.orderId)" class="text-danger">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>

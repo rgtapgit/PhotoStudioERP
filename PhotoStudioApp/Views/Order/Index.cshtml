@@ -1,0 +1,120 @@
+﻿
+
+@{
+    ViewBag.Title = "IndexOrder";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        loadList();
+        $("#btnAdd").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Order/PlaceOrder/")",
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+                },
+                success: function (results) {
+                    //$("#divBody").html(results);
+                    window.location.href = "/Order/PlaceOrder/";
+                }
+            });
+        });
+
+        $("#btnExcel").click(function () {
+            window.location.href = "@Url.Content("~/Order/DuedateExportList")"; 
+        });
+
+        $("#btnReport").click(function () {
+            window.location.href = "@Url.Content("~/Order/Report")"; 
+        });
+    });
+
+    function loadList() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Order/List/")",
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                $("#tablediv").html(results);
+            }
+        });
+    }
+
+    function editList(id) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Order/Edit/")" + id,
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                window.location.href = "/Order/Edit/" + id;
+            }
+        });
+    }
+
+    function deleteOrder(id) {
+        debugger;
+        var isDelete = confirm("Are you sure to delete?")
+        if (isDelete) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Order/Delete/")" + id,
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")'/></div>");
+                },
+                success: function (results) {
+                    loadList();
+                }
+            });
+        }
+    }
+
+</script>
+
+@*<div class="container">*@
+    <br />
+    <h4 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">Order List</h4>
+    <hr />
+
+    <div class="row mb-1">
+        <div class="col-md-6 text-left">
+            <button type="button" class="btn btn-info mr-1" id="btnAdd">Add Order</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-info" id="btnExcel">Download Excel</button>
+        </div>
+    </div>
+
+    <div id="tablediv">
+
+    </div>
+
+    <div class="row pt-2">
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-info" id="btnReport">Generate Report</button>
+        </div>
+    </div>
+@*</div>*@

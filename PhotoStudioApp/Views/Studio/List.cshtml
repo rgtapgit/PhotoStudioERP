@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PhotoStudioApp.Models.Studio>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+@{
+    ViewBag.Title = "List";
+    Layout = null;
+}
+
+
+  <div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 text-center">
+            <div class="card" style="width:250px">
+                <img class="card-img-top border" src="~/UserProfilePhoto/@item.ProfilePhoto" alt="Owners image" style="width:80%;height:80%">
+                <div class="card-body">
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.studioName)</h4>
+                    <p class="card-text">Studio Card</p>
+                    <a href="#" data-toggle="modal" data-target="#myModal" onclick="editList(@item.studioId)" class="text-success">Edit <i class="fa fa-edit"></i></a>|
+                    <a href="#" onclick="deleteStudio(@item.studioId)" class="text-danger">Delete <i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+              @*<tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.studioName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                <img src="~/UserProfilePhoto/@item.ProfilePhoto" />
+                @Html.DisplayFor(modelItem => item.ProfilePhoto)
+            </td>
+            <td>
+                <a href="#" data-toggle="modal" data-target="#myModal" onclick="editList(@item.orderId)" class="text-success">Edit</a> |
+                <a href="#" onclick="deleteOrder(@item.orderId)" class="text-danger">Delete</a>
+            </td>
+        </tr>*@
+    }
+
+</div>

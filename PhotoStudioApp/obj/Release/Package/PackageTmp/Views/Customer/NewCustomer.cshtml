@@ -1,0 +1,128 @@
+﻿@model PhotoStudioApp.Models.Customer
+
+@{
+    ViewBag.Title = "NewCustomer";
+    Layout = "~/Views/Shared/Admin.cshtml";
+    //Layout = null;
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+
+    var Customer = {
+        "customerId": "",
+        "customerName": "",
+        "Contact": "",
+        "Address": "",
+        "emailId": "",
+        "ImageUrl": "",
+        "studioId": ""
+    };
+
+    $(document).ready(function () {
+
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgCustomer')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+   
+</script>
+
+<style>
+    .req {
+        color:red;
+    }
+</style>
+
+<br />
+<h4 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">New Customer</h4>
+<hr />
+
+@using (Html.BeginForm("NewCustomer", "Customer", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmNewCustomer" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="jumbotron pt-3">
+        <div class="row">
+            @*//Column-1//*@
+            <div class="col-md-8">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.customerId, new { @class = "form-control", id = "txtCustomerId" })
+                    @Html.HiddenFor(m => m.studioId, new { @class = "form-control", id = "txtStudioId" })
+                    @*@Html.HiddenFor(m => m.ImageUrl, new { @class = "form-control", id = "txtImageUrl" })*@
+                    <div class="col-md-6">
+                        <label for="">Customer Name<span class="req">*</span></label>
+                        @Html.TextBoxFor(m => m.customerName, new { @class = "form-control", id = "txtCustomerName" })
+                        @Html.ValidationMessageFor(model => model.customerName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Contact No.<span class="req">*</span></label>
+                        @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", id = "txtContact" })
+                        @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Address<span class="req">*</span></label>
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", id = "txtAddress" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Email Id<span class="req">*</span></label>
+                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @type="email", id = "txtEmail" })
+                        @Html.ValidationMessageFor(model => model.emailId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            @*//Column-2//*@
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="file1">Photo</label><br />
+                        <input type="file" id="file2" name="file1" onchange="readURL(this);" />
+                    </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-md-4">
+                        <img id="imgCustomer" src="#" alt="Photo" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                @ViewBag.error
+            </div>
+
+        </div>
+        <br /><br />
+        <div class="row pt-3">
+            <div class="col-md-6 text-right">
+                <input type="submit" value="Save Customer" class="btn btn-info shadow" id="btnSubmitItem"  />
+            </div>
+            <div class="col-md-6">
+                <input type="button" value="Cancle" class="btn btn-info shadow" onclick="window.history.back();" />
+            </div>
+        </div>
+        </div>
+
+}
+

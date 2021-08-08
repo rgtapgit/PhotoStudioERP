@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PhotoStudioApp.Models.Customer>
+
+@{
+    ViewBag.Title = "List";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 40vh;
+        object-fit: cover;
+    }
+</style>
+
+<div class="row">
+@foreach (var item in Model)
+{
+    <div class="col-md-4">
+        <div class="container pb-3 pt-2">
+            <div class="card" style="width:250px">
+                <img src="~/CustomerPhotos/@item.ImageUrl" alt="Customer Photo" style="width:250px;height:190px; align-items:center" />
+                
+                <div class="card-body">
+                    <p class="card-text">
+                        Contact No. : @Html.DisplayFor(modelItem => item.Contact)<br />
+                        Address : @Html.DisplayFor(modelItem => item.Address)<br />
+                        Email : @Html.DisplayFor(modelItem => item.emailId)<br />
+                    </p>
+                        <button class="btn btn-info float-left" data-toggle="modal" data-target="#myModal" onclick="editList(@item.customerId)">Edit <i class="fa fa-edit"></i></button>
+                        <button class="btn btn-danger float-right" onclick="deleteCustomer(@item.customerId)">Delete <i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
+

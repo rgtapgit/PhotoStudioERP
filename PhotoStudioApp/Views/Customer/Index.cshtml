@@ -1,0 +1,108 @@
+﻿
+
+@{
+    ViewBag.Title = "IndexCustomer";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        loadList();
+        $("#btnAdd").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Customer/NewCustomer/")",
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+                },
+                success: function (results) {
+                    //$("#divBody").html(results);
+                    window.location.href = "/Customer/NewCustomer/";
+                }
+            });
+        });
+
+        $("#btnExcel").click(function () {
+            window.location.href = "@Url.Content("~/Customer/DuedateExportList")";
+        });
+    });
+
+    function loadList() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Customer/List/")",
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                $("#tablediv").html(results);
+            }
+        });
+    }
+
+    function editList(id) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Customer/Edit/")" + id,
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                window.location.href = "/Customer/Edit/" + id;
+            }
+        });
+    }
+
+    function deleteCustomer(id) {
+        debugger;
+        var isDelete = confirm("Are you sure to delete?")
+        if (isDelete) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Customer/Delete/")" + id,
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")'/></div>");
+                },
+                success: function (results) {
+                    loadList();
+                }
+            });
+        }
+    }
+
+</script>
+
+@*<div class="container">*@
+    <br>
+    <h4 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">Customer List</h4>
+    <hr />
+
+    <div class="row mb-1">
+        <div class="col-md-6 text-left">
+            <button type="button" class="btn btn-info mr-1" id="btnAdd">Add Customer</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-info" id="btnExcel">Download Excel</button>
+        </div>
+    </div>
+
+    <div id="tablediv">
+
+    </div>
+@*</div>*@

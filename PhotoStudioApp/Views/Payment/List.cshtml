@@ -1,0 +1,91 @@
+﻿@model IEnumerable<PhotoStudioApp.Models.PaymentViewModel>
+
+@{ 
+    ViewBag.Title="PaymentList";
+    Layout = null;
+}
+
+
+    <table class="table table-striped table-bordered table-hover" id="tblPaymentList">
+        <tr class="table-header" style="background-color:#46a4e2 ;color:white">
+            @*<th>
+                    Payment Id
+                </th>*@
+            @*<th>
+                    Order Id
+                </th>*@
+            @*<th>
+                    Studio Id
+                </th>*@
+            <th>
+                Order No.
+            </th>
+            <th>
+                Payment Details
+            </th>
+            <th>
+                Total Amount
+            </th>
+            <th>
+                Down Payment
+            </th>
+            <th>
+                Balance Amount
+            </th>
+            <th>
+                Pay Mode
+            </th>
+            <th>
+                Payment Date
+            </th>
+            <th>
+                Receipt No.
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.paymentId)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.orderId)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.studioId)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.paymentDetail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.totalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.downPayment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.balanceAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.payMode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.paymentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.receiptNo)
+                </td>
+                <td>
+                    <a href="#" onclick="editList(@item.paymentId)" class="text-success"><i class="fa fa-edit"></i></a> |
+                    <a href="#" onclick="deletePayment(@item.paymentId)" class="text-danger"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+    

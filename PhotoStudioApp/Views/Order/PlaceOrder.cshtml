@@ -1,0 +1,228 @@
+﻿@model PhotoStudioApp.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Content/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="~/Content/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.js"></script>
+
+<script>
+
+    $(function () {
+        $(".datepicker").datepicker({
+            minDate: -365,
+            maxDate: 365,
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#txtContact").blur(function () {
+            $("#txtCustomerName").val("");
+            $("#txtAddress").val("");
+            $("#txtEmailId").val("");
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Order/getCustomerByMobNo?mob=")" + $("#txtContact").val(),
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    @*$("#frmPlaceOrder").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");*@
+                },
+                success: function (results) {
+                    debugger;
+                    if (results == "") {
+                        //$("#divBody").html(results);
+                        $("#myModal").modal('show');
+                        addCust();
+                        $("#divBody #textContact").val(results.Contact);
+                    }
+                    else {
+                        $("#txtCustomerId").val(results.customerId);
+                        $("#txtCustomerName").val(results.customerName);
+                        $("#txtAddress").val(results.Address);
+                        $("#txtEmailId").val(results.emailId);
+                    }
+                }
+            });
+        });
+
+        $("#btnSubmitCustomer").click(function () {
+            debugger;
+            var frmCat = $("#frmAddCustomer");
+            debugger;
+            if (frmCat.valid()) {
+                $.ajax({
+                    url: "@Url.Content("~/Customer/AddCustomer")",
+                    type: 'POST',
+                    datatype: "json",
+                    data: frmCat.serialize(),
+                    success: function (data, textStatus, xhr) {
+                        debugger;
+                        console.log("success" + JSON.stringify(data));
+                        $("#txtCustomerId").val(data.customerId);
+                        $("#txtCustomerName").val(data.customerName);
+                        $("#txtAddress").val(data.Address);
+                        $("#txtEmailId").val(data.emailId);
+                        $("#txtContact").val(data.Contact);
+                        //$("#txtAddress").val(data.Address);
+                        $("#divAddItemMsg").html("<div class='alert alert-success' role='alert'>Customer has been Saved!</div>");
+                        $("#divAddItemMsg").show();
+                        $("#divAddItemMsg").delay(2000).slideUp(200, function () {
+                            $("#divAddItemMsg").hide();
+                            $("#myModal").modal("hide");
+                        });
+                    },
+                    error: function (data) {
+                        debugger;
+                        console.log("error" + data);
+                    }
+                });
+            }
+        });
+    });
+
+    function addCust() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Customer/AddCustomer/")",
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#divBody").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                $("#divBody").html(results);
+            }
+        });
+    }
+</script>
+
+<br />
+<h4 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">Place Your Order Here</h4>
+<hr />
+
+@using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post, new { id = "frmPlaceOrder" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="jumbotron pt-3">
+        <div class="row">
+            @*<div class="col-md-1">
+
+                </div>*@
+            <div class="col-md-12">
+
+                <div class="row">
+                    @Html.HiddenFor(m => m.orderId, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.customerId, new { @class = "form-control", id = "txtCustomerId" })
+                    @Html.HiddenFor(m => m.studioId, new { @class = "form-control" })
+                    <div class="col-md-4">
+                        <label for="">Contact No.</label>
+                        @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", id = "txtContact" })
+                        @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                    </div>
+                    @*<div class="col-md-4">
+                        <label for="">Customer Id</label>
+                        @Html.TextBoxFor(m => m.customerId, new { @class = "form-control", id = "txtCustomerId" })
+                        @Html.ValidationMessageFor(model => model.customerId, "", new { @class = "text-danger" })
+                    </div>*@
+                    <div class="col-md-4">
+                        <label for="">Customer Name</label>
+                        @Html.TextBoxFor(m => m.customerName, new { @class = "form-control", id = "txtCustomerName" })
+                        @Html.ValidationMessageFor(model => model.customerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="">Email Id</label>
+                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", id = "txtEmailId" })
+                        @Html.ValidationMessageFor(model => model.emailId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Order No.</label>
+                        @Html.TextBoxFor(m => m.OrderNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Address</label>
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", id = "txtAddress" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Order Details</label>
+                        @Html.TextAreaFor(m => m.OrderDetails, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OrderDetails, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="">Order Date</label>
+                        @Html.TextBoxFor(m => m.orderDate, new { @class = "form-control datepicker", id = "txtOrderDate" })
+                        @Html.ValidationMessageFor(model => model.orderDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Total Cost</label>
+                        @Html.TextBoxFor(m => m.totalCost, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.totalCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="row pt-3">
+                    <div class="col-md-4 text-right">
+                        <input type="submit" value="Save Order" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" value="Cancle" class="btn btn-primary" onclick="window.history.back();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-center">Add Customer</h4>
+            </div>
+            <div class="modal-body">
+                <div id="divBody">
+
+                </div>
+                <div id="divAddItemMsg" style="display:none;"></div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSubmitCustomer" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+      

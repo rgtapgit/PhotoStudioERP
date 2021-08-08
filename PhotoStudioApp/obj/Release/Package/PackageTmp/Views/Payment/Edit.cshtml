@@ -1,0 +1,212 @@
+﻿@model PhotoStudioApp.Models.Payment
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+
+<script>
+
+    //Below is object defining of PaymentViewModel
+    var PaymentViewModel = {
+        "paymentId": "",
+        "orderId": "",
+        "OrderNo": "",
+        "totalCost": "",
+        "paymentDetail": "",
+        "downPayment": "",
+        "balanceAmount": "",
+        "payMode": "",
+        "paymentDate": "",
+        "receiptNo": "",
+        "studioId": ""
+    };
+
+
+    $(function () {
+        $(".datepicker").datepicker({
+            format: 'mm/dd/yyyy',
+            minDate: -365,
+            maxDate: +365,
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+    $(document).ready(function () {
+        debugger;
+
+        $("#txtDownPayment").blur(function () {
+
+            const blcAmt = (Number($("#txtTotalCost").val()) - Number($("#txtDownPayment").val())).toFixed();
+            $("#txtBalanceAmount").val(blcAmt);
+        });
+
+        $('#selectPayMode').change(function () {
+            var selected = $(this).val();
+            if (selected == 'ByCheque') {
+                $('#chequeBox').show();
+            }
+            else {
+                $('#chequeBox').hide();
+            }
+        });
+
+        @*$("#txtOrderNo").blur(function () {
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Payment/getTotalCostByOrderNo?ordNo=")" + $("#txtOrderNo").val(),
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+
+                },
+                success: function (results) {
+                    debugger;
+                    if (results == "") {
+                        alert("Order No. not found..!!");
+                        //$("#divBody").html(results);
+                        //$("#myModal").modal('show');
+                        //addCust();
+                        //$("#divBody #txtCustomerContact").val(results.Contact);
+                    }
+                    else {
+                        alert("Order No. found..!!");
+                        $("#txtTotalCost").val(results.totalCost);
+                        //$("#txtCustomerName").val(results.CustomerName);
+                        //$("#txtAddress").val(results.Address);
+                    }
+                }
+            });
+        });*@
+    });
+    
+</script>
+
+@using (Html.BeginForm("Edit", "Payment", FormMethod.Post, new { id = "frmMakePayment" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="jumbotron mt-3">
+       
+        <div class="row">
+            @*column1*@
+            <div class="col-md-7">
+                <div class="row">
+
+                    @Html.HiddenFor(m => m.paymentId, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.studioId, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.orderId, new { @class = "form-control", id = "txtOrderId" })
+                    @*<div class="col-md-4">
+                        <label for="">Order No.</label>
+                        @Html.TextBoxFor(m => m.OrderNo, new { @class = "form-control", id = "txtOrderNo" })
+                        @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+                    </div>*@
+                    @*<div class="col-md-4">
+                        <label for="">Order Id</label>
+                        @Html.TextBoxFor(m => m.orderId, new { @class = "form-control", id = "txtOrderId" })
+                        @Html.ValidationMessageFor(model => model.orderId, "", new { @class = "text-danger" })
+                    </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Payment Details</label>
+                        @Html.TextAreaFor(m => m.paymentDetail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.paymentDetail, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="selectPayMode">Pay Mode</label>
+                        <select class="form-control" name="payMode" id="selectPayMode">
+                            <option value="" class="text-muted">Select</option>
+                            <option value="ByCash">ByCash</option>
+                            <option value="ByCheque">ByCheque</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.payMode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3" id="chequeBox">
+                        <label for="txtChequeBox">Cheque No.</label>
+                        <input type="text" class="form-control" id="txtChequeBox" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="txtPaymentDate">Payment Date</label>
+                        @Html.TextBoxFor(m => m.paymentDate, new { @class = "form-control datepicker", id = "txtPaymentDate", @placeholder = "mm/dd/yyyy" })
+                        @Html.ValidationMessageFor(model => model.paymentDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Receipt No.</label>
+                        @Html.TextBoxFor(m => m.receiptNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.receiptNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @*<div class="col-md-4">
+                        <label for="">Total Cost</label>
+                        @Html.TextBoxFor(m => m.totalCost, new { @class = "form-control", @type = "number", id = "txtTotalCost" })
+                        @Html.ValidationMessageFor(model => model.totalCost, "", new { @class = "text-danger" })
+                    </div>*@
+                    <div class="col-md-4">
+                        <label for="">Down Payment</label>
+                        @Html.TextBoxFor(m => m.downPayment, new { @class = "form-control", @type = "number", id = "txtDownPayment" })
+                        @Html.ValidationMessageFor(model => model.downPayment, "", new { @class = "text-danger" })
+                    </div>
+                    @*<div class="col-md-4">
+                            <label for="">Balance Amount</label>
+                            @Html.TextBoxFor(m => m.balanceAmount, new { @class = "form-control", @type = "number", id = "txtBalanceAmount" })
+                            @Html.ValidationMessageFor(model => model.balanceAmount, "", new { @class = "text-danger" })
+                        </div>*@
+                </div>
+            </div>
+
+            @*column2*@
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Balance Payment Detail:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 pt-1">
+                        <table class="table table-bordered table-hover" id="tblEMI">
+                            <thead>
+                                <tr style="background-color:darkcyan">
+                                    <th>Date</th>
+                                    <th>Balance Amt.</th>
+                                    <th>Cheque No.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control datepicker" placeholder="mm/dd/yyyy" style="width:120px" id="txtBalanceDate"></td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.balanceAmount, new { @class = "form-control", @type = "number", id = "txtBalanceAmount" })
+                                        @Html.ValidationMessageFor(model => model.balanceAmount, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td><input type="text" class='form-control' style='width:110px' placeholder='Cheque No.'> </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row pt-3">
+            <div class="col-md-4 text-right">
+                <input type="submit" value="Save Payment" class="btn btn-primary" />
+            </div>
+            <div class="col-md-4">
+                <input type="button" value="Cancle" class="btn btn-primary" onclick="window.history.back();" />
+            </div>
+        </div>
+    </div>
+}

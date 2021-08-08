@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        body {
+            background: none;
+            font-family: 'Muli', sans-serif;
+        }
+
+        .fa1 {
+            color: #D4AC0D;
+            text-align: center;
+            padding: 30px;
+            font-size: 46px;
+        }
+
+        .card {
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.01);
+            transition: box-shadow 0.3s ease-in-out;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+            .card:hover {
+                box-shadow: 0 5px 15px 2px rgba(0, 0, 0, 0.3);
+            }
+
+        h3 {
+            text-align: center;
+            font-size: 22px;
+            color: black;
+            font-weight: 600;
+        }
+
+        p {
+            padding: 5px;
+            text-align: center;
+            font-size: 15px;
+            color: #414545;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .fa-star {
+            color: #D4AC0D;
+            text-align: center;
+            padding: 5px;
+            font-size: 20px;
+        }
+
+        .checked {
+            color: orange;
+        }
+
+        li {
+            line-height: 10px;
+            height: 36px;
+            font-size: 18px;
+            font-family: open_sanssemibold;
+        }
+
+        ul {
+            font-size: larger;
+        }
+
+        .card-body {
+            background-color: lightgray;
+            font-family: 'Muli', sans-serif;
+        }
+
+        .card-header {
+            background-color: crimson;
+            color: #fff;
+            padding: 15px 32px;
+            text-align: center;
+        }
+
+        .btn-lg {
+            width: 80%;
+            height: 100%;
+            padding: 15px 32px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand text-white" href="#"><span class="glyphicon glyphicon-camera text-white"></span> PhotoStudioApp</a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a href="~/admin/Login/" class="text-white"><span class="glyphicon glyphicon-log-in text-white"></span>  Login</a>
+            </div>
+        </div>
+    </nav>
+     
+        <div class="container pb-4">
+            <div class="row mt-5 justify-content-center">
+                <div class="col-md-12 text-center">
+                    <h1><strong>Welcome to PhotoStudio Application</strong></h1>
+                    <p>
+                        <strong>PhotoStudio Application</strong>
+                        ERP is a business management software designed for micro and medium-sized Photo Studios. It automates all business processes
+                        such as orders and payments, inventory management, customer relations and much more. The application is focused on simplicity,
+                        functionality, and customization. Application logic is open and can be adjusted fast and with little effort.
+                        With PhotoStudio Application ERP your Studio gets a powerful and simple business management solution created exactly to its needs and business practices.
+                    </p>
+                    <hr style="width:5rem; opacity:2;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-align mt-3">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-xs-12 pl-1 pr-1">
+                    <div class="card">
+                        <i class="fa fa-bar-chart-o fa1"></i>
+                        <h3>Point of Sale</h3>
+                        <p>
+                            Monitor your Orders, interactions and Payments. Create, modify and keep track of Orders to monitor and analyze your sales.
+                            Increase your income and gain time to grow your business by defining your sales.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 pl-1 pr-1">
+                    <div class="card">
+                        <i class="fa fa-book fa1"></i>
+                        <h3>Accounting</h3>
+                        <p>
+                            Be in total control over your financial transactions to significantly increase the performance of your shop.
+                            Manage your accounting operations from any location or any device.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-xs-12 pl-1 pr-1">
+                    <div class="card">
+                        <i class="fa fa-user fa1"></i>
+                        <h3>Crm Portal</h3>
+                        <p>
+                            Manage business relationships and information associated with them. All your Shop's interactions with Sales,
+                            customers and Employees. Do analyze your sales growth by different graphs we provide.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row pt-5 pb-5">
+            <div class="col-md-12 text-center">
+                <h1><strong>Our Package</strong> </h1>
+                <p>We have designed following packages considering needs of all type of Clients.</p>
+            </div>
+        </div>
+
+        <div class="container pt-2">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="text-center"><strong>Silver</strong> </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="rating text-center pb-4">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <ul class="list-unstyled text-center">
+                                <li>Sale Portal</li>
+                                <li>Customer Portal</li>
+                                <li>Due Date Report</li>
+                                <li>Receipt Portal</li>
+                                <li>3 Users</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a class="btn btn-info btn-lg" href="#">CHOOSE PLAN</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="text-center"><strong>Gold</strong> </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="rating text-center pb-4">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <ul class="list-unstyled text-center">
+                                <li>Shop Dashboard and Sale Graphs</li>
+                                <li>All Portals</li>
+                                <li>Customization</li>
+                                <li>Reports</li>
+                                <li>5 Users</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a class="btn btn-danger btn-lg" href="#">CHOOSE PLAN</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="text-center"><strong>Platinum</strong> </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="rating text-center pb-4">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <ul class="list-unstyled text-center">
+                                <li>Shop Dashboard & Graph</li>
+                                <li>All Portals & Reports</li>
+                                <li>Expense Portal (Expense, Income)</li>
+                                <li>Receipt Portal</li>
+                                <li>10 Users</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a class="btn btn-success btn-lg" href="#">CHOOSE PLAN</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

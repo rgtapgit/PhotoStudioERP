@@ -1,0 +1,38 @@
+﻿@model PhotoStudioApp.Models.StudioSubscription
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+
+<h2>Subscription Page</h2>
+
+
+@using (Html.BeginForm("Add", "StudioSubscription", FormMethod.Post, new { id = "frmAdd" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        @Html.HiddenFor(m => m.StudioSubscriptionId, new { @class = "form-control" })
+        <div class="col-md-4">
+            <label for="">Subscription Date</label>
+            @Html.TextBoxFor(m => m.subscriptionDate, new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.subscriptionDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            <label for="">Subscription Period</label>
+            @Html.TextBoxFor(m => m.subscriptionPeriod, new { @class = "form-control", @type = "number" })
+            @Html.ValidationMessageFor(model => model.subscriptionPeriod, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label for="">Subscription Amount</label>
+            @Html.TextBoxFor(m => m.subscriptionAmount, new { @class = "form-control", @type = "number" })
+            @Html.ValidationMessageFor(model => model.subscriptionAmount, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-offset-2 col-md-4">
+            <input type="submit" value="Sbscribe" class="btn btn-default" />
+        </div>
+    </div>
+
+}

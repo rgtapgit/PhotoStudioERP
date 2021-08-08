@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "IndexStudio";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        loadList();
+        @*$("#btnAdd").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Studio/NewStudio/")",
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+                },
+                success: function (results) {
+                    //$("#divBody").html(results);
+                    window.location.href = "/Studio/NewStudio/";
+                }
+            });
+        });*@
+
+        $("#btnAdd").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Studio/Upload/")",
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+                },
+                success: function (results) {
+                    //$("#divBody").html(results);
+                    window.location.href = "/Studio/Upload/";
+                }
+            });
+        });
+
+        $("#btnExcel").click(function () {
+            window.location.href = "@Url.Content("~/Studio/DuedateExportList")";
+
+        });
+    });
+
+    function loadList() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Studio/List/")",
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                $("#tablediv").html(results);
+            }
+        });
+    }
+
+    function editList(id) {
+        debugger
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Studio/Edit/")" + id,
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                window.location.href = "/Studio/Edit/" + id;
+            }
+        });
+    }
+
+    function deleteStudio(id) {
+        debugger
+        var isDelete = confirm("Are you sure to delete?")
+        if (isDelete) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Studio/Delete/")" + id,
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")'/></div>");
+                },
+                success: function (results) {
+                    loadList();
+                }
+            });
+        }
+    }
+
+</script>
+
+
+<h3 class="pb-3 pt-2">Studio List</h3>
+<hr />
+
+<div class="row mb-1">
+    <div class="col-md-6 text-left">
+        <button type="button" class="btn btn-primary mr-1" id="btnAdd">Add Studio</button>
+    </div>
+    <div class="col-md-6 text-right">
+        <button type="button" class="btn btn-info" id="btnExcel">Download Excel</button>
+    </div>
+</div>
+
+<div id="tablediv">
+
+</div>
+
+

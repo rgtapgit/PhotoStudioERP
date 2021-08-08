@@ -1,0 +1,116 @@
+﻿@model PhotoStudioApp.Models.Order
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            minDate: -365,
+            maxDate: 365,
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+    @*$(document).ready(function () {
+
+        $("#dpdlCustId").change(function () {
+            $("#txtOrderNo").val("");
+            $("#txtOrderDetail").val("");
+            $("#txtOrderDate").val("");
+            $("#txtTotalCost").val("");
+            debugger;
+            editOrder();
+        });
+               
+    });
+
+    function editOrder() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Order/getOrderbyCustomerId?id=")" + $("#dpdlCustId").val(),
+            contentType: false,
+            processData: false,
+            data: "",
+            success: function (results) {
+                $("#txtOrderNo").val(results.OrderNo);
+                $("#txtOrderDetail").val(results.OrderDetails);
+                $("#txtOrderDate").val(results.orderDate);
+                $("#txtTotalCost").val(results.totalCost);
+            }
+        });
+    }*@
+
+    
+</script>
+<h3 class="pb-3 pt-2 jumbotron">Edit Your Order Here</h3>
+<hr />
+
+@using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { id = "frmPlaceOrder" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="jumbotron pt-3">
+        <div class="row">
+            @*<div class="col-md-1">
+
+                </div>*@
+            <div class="col-md-12">
+
+                <div class="row">
+                    @Html.HiddenFor(m => m.orderId, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.customerId, new { @class = "form-control", id = "txtCustomerId" })
+                    @Html.HiddenFor(m => m.studioId, new { @class = "form-control" })
+                    @*<div class="col-md-4">
+                        <label for="">Customer Id </label>
+                        @Html.DropDownList("customerId", (IEnumerable<SelectListItem>)ViewBag.Customer, "Select Customer Id", new { id = "dpdlCustId", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.customerId, "", new { @class = "text-danger" })
+                    </div>*@
+                    <div class="col-md-4">
+                        <label for="">Order No.</label>
+                        @Html.TextBoxFor(m => m.OrderNo, new { @class = "form-control", id = "txtOrderNo" })
+                        @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Order Details</label>
+                        @Html.TextAreaFor(m => m.OrderDetails, new { @class = "form-control", id = "txtOrderDetail" })
+                        @Html.ValidationMessageFor(model => model.OrderDetails, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="">Order Date</label>
+                        @Html.TextBoxFor(m => m.orderDate, new { @class = "form-control datepicker", id = "txtOrderDate" })
+                        @Html.ValidationMessageFor(model => model.orderDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Total Cost</label>
+                        @Html.TextBoxFor(m => m.totalCost, new { @class = "form-control", id = "txtTotalCost" })
+                        @Html.ValidationMessageFor(model => model.totalCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="row pt-3">
+                    <div class="col-md-4 text-right">
+                        <input type="submit" value="Update Order" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" value="Cancle" class="btn btn-primary" onclick="window.history.back();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

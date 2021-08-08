@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    var Customer = {
+        "customerId": "",
+        "customerName": "",
+        "Contact": "",
+        "Address": ""
+    };
+
+    $(document).ready(function () {
+       
+        $("#dpdlMob").change(function () {
+            getCustInfo();
+            getCustOrder();
+        });
+
+    });
+
+    function getCustInfo() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Order/getCustomerInfo?id=")" + $("#dpdlMob").val(),
+            contentType: false,
+            processData: false,
+            data: "",
+            success: function (results) {
+                $("#txtCustName").val(results.customerName);
+            }
+        });
+    }
+
+    function getCustOrder() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Order/getOrderByCustId?id=")" + $("#dpdlMob").val(),
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#orderList").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+
+            success: function (results) {
+            debugger;
+                $("#orderList").html(results);
+            }
+        });
+    }
+</script>
+
+@*<div class="container">*@
+    <br />
+    <h3 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">Report</h3>
+    <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <label>Mobile No <i class="fa fa-phone"></i> :</label>
+                @Html.DropDownList("customerId", (IEnumerable<SelectListItem>)ViewBag.MobileNo, "Select Mobile No", new { id = "dpdlMob", @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Customer <i class="fa fa-user"></i> :</label>
+                <input type="text" class="form-control" id="txtCustName" />
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-md-12" id="orderList">
+
+            </div>
+        </div>
+    @*</div>*@

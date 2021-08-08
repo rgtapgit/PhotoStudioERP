@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "IndexPayment";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        loadList();
+        $("#btnAdd").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Payment/MakePayment/")",
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+                },
+                success: function (results) {
+                    //$("#divBody").html(results);
+                    window.location.href = "/Payment/MakePayment/";
+                }
+            });
+        });
+
+        $("#btnExcel").click(function () {
+            window.location.href = "@Url.Content("~/Payment/DuedateExportList/")";
+        });
+    });
+
+    function loadList() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Payment/List/")",
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                $("#tablediv").html(results);
+            }
+        });
+    }
+
+    function editList(id) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/Payment/Edit/")" + id,
+            contentType: false,
+            processData: false,
+            data: "",
+            beforeSend: function () {
+                $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")' /></div>");
+            },
+            success: function (results) {
+                window.location.href = "/Payment/Edit/" + id;
+            }
+        });
+    }
+
+    function deletePayment(id) {
+        debugger;
+        var isDelete = confirm("Are you sure to delete?")
+        if (isDelete) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/Payment/Delete/")" + id,
+                contentType: false,
+                processData: false,
+                data: "",
+                beforeSend: function () {
+                    $("#tablediv").html("<div style='text-align:center;'><img src='@Url.Content("~/Content/loading.gif")'/></div>");
+                },
+                success: function (results) {
+                    loadList();
+                }
+            });
+        }
+    }
+
+</script>
+
+@*<div class="container">*@
+    <br />
+    <h4 class="breadcrumb mb-4" style="background-color:#46a4e2 ;color:white">Payment List</h4>
+    <hr />
+
+    <div class="row mb-2">
+        <div class="col-md-6 text-left">
+            <button type="button" class="btn btn-info mr-1" id="btnAdd">Add Payment</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-info" id="btnExcel">Download Excel</button>
+        </div>
+    </div>
+
+    <div id="tablediv">
+
+    </div>
+@*</div>*@
